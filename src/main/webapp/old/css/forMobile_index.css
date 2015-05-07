@@ -1,0 +1,59 @@
+@MEDIA ( screen and (max-height: 600px)) {
+	.hidden-small-label {
+		display: none;
+	}
+	.google-header-bar.centered {
+		height: 60px;
+	}
+	.main {
+		padding-bottom: 35px;
+	}
+}
+
+@MEDIA ( screen and (max-width: 580px)) {
+	.banner h1 {
+		font-size: 22px;
+		margin-bottom: 15px;
+	}
+	.signin-card {
+		width: 260px;
+		padding: 20px 20px;
+		margin: 0 auto 20px;
+	}
+	.signin-card .profile-img {
+		width: 72px;
+		height: 72px;
+		-moz-border-radius: 72px;
+		-webkit-border-radius: 72px;
+		border-radius: 72px;
+	}
+	html, body {
+		font-size: 14px;
+	}
+	.google-header-bar.centered {
+		height: 73px;
+	}
+	.google-header-bar.centered .header .logo {
+		margin: 20px auto 15px;
+	}
+	.content {
+		padding-left: 10px;
+		padding-right: 10px;
+	}
+	.hidden-small {
+		display: none;
+	}
+	.main {
+		padding-bottom: 0px;
+	}
+	.card {
+		padding: 20px 15px 30px;
+		width: 270px;
+	}
+	.footer ul li {
+		padding-right: 1em;
+	}
+	.lang-chooser-wrap {
+		display: none;
+	}
+}

@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!--
+        
+      
+    -->
+<meta charset="utf-8">
+<title>Please login</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description"
+	content="My Bet League, a platform for you and friends. Chanlenge your friends and win!">
+<meta name="author" content="João Fernandes">
+
+<!-- The styles -->
+<link id="bs-css" href="css/bootstrap-cerulean.min.css" rel="stylesheet">
+
+<link href="css/template.css" rel="stylesheet">
+<link href='bower_components/fullcalendar/fullcalendar.css'
+	rel='stylesheet'>
+<link href='bower_components/fullcalendar/fullcalendar.print.css'
+	rel='stylesheet' media='print'>
+<link href='bower_components/chosen/chosen.min.css' rel='stylesheet'>
+<link href='bower_components/colorbox/example3/colorbox.css'
+	rel='stylesheet'>
+<link href='bower_components/responsive-tables/responsive-tables.css'
+	rel='stylesheet'>
+<link
+	href='bower_components/bootstrap-tour/build/css/bootstrap-tour.min.css'
+	rel='stylesheet'>
+<link href='css/jquery.noty.css' rel='stylesheet'>
+
+<link href='css/noty_theme_default.css' rel='stylesheet'>
+<link href='css/elfinder.min.css' rel='stylesheet'>
+<link href='css/elfinder.theme.css' rel='stylesheet'>
+<link href='css/jquery.iphone.toggle.css' rel='stylesheet'>
+<link href='css/uploadify.css' rel='stylesheet'>
+<link href='css/animate.min.css' rel='stylesheet'>
+<link href="css/google-btn.css" rel="stylesheet">
+<link href="css/btn-login.css" rel="stylesheet">
+<!-- jQuery mobile -->
+<link href="css/jquery.mobile-1.4.5.customs.min.css" rel="stylesheet">
+<!-- jQuery -->
+<script src="bower_components/jquery/jquery.min.js"></script>
+
+<!-- jQuery Mobile-->
+<script src="js/jquery.mobile-1.4.5.min.js"></script>
+<!-- The HTML5 shim, for IE6-8 support of HTML5 elements -->
+<!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+<!-- The fav icon -->
+<link rel="shortcut icon" href="img/favicon.ico">
+
+</head>
+
+<body>
+	<div id="fb-root"></div>
+	<div class="ch-container">
+		<div class="row">
+
+			<div class="row">
+				<div class="col-md-12 center login-header">
+					<h2>Welcome to My Bet League</h2>
+				</div>
+				<!--/span-->
+			</div>
+			<!--/row-->
+
+			<div class="row">
+				<div class="well col-md-5 center login-box">
+					<div class="alert alert-info">Please login with your Username
+						and Password.</div>
+					<form class="form-horizontal" action="index.html" method="post">
+						<fieldset>
+							<div class="input-group input-group-lg">
+								<span class="input-group-addon"><i
+									class="glyphicon glyphicon-user red"></i></span> <input type="text"
+									class="form-control-login form-control" placeholder="Username">
+							</div>
+							<div class="clearfix"></div>
+							<br>
+
+							<div class="input-group input-group-lg">
+								<span class="input-group-addon"><i
+									class="glyphicon glyphicon-lock red"></i></span> <input
+									type="password" class="form-control-login form-control"
+									placeholder="Password">
+							</div>
+							<div class="clearfix"></div>
+
+							<div class="input-prepend">
+								<label class="remember" for="remember"><input
+									type="checkbox" id="remember"> Remember me</label>
+							</div>
+							<div class="clearfix"></div>
+
+							<p class="center col-md-5">
+								<button type="submit" class="btn btn-primary">Login</button>
+							</p>
+						</fieldset>
+					</form>
+					<div id="choose-acct" class="hidden-small-label">
+						<h3>Choose other way to login:</h3>
+					</div>
+					<div id="googleBtn" class="customGPlusSignIn" onclick="render();">
+						<span class="icon"></span> <span class="buttonText">sign in
+							with google</span>
+					</div>
+
+					<div id="signInFace">
+						<div id="faceBtn" onlogin="checkLoginState();"
+							class="fb-login-button login-btn" data-size="large"
+							data-width="100" data-show-faces="false"
+							data-auto-logout-link="false" data-scope="public_profile,email">sign
+							in with facebook</div>
+					</div>
+				</div>
+
+
+				<!--/span-->
+			</div>
+			<!--/row-->
+		</div>
+		<!--/fluid-row-->
+
+	</div>
+	<!--/.fluid-container-->
+
+
+	<!-- internal javascript -->
+	<!-- google + login -->
+	<script type="text/javascript">
+
+	//render the google plus api
+	function render() {
+
+		gapi.signin.render( 'googleBtn', {
+			'callback': 'signinCallback',
+			'clientid': '211423927641-l4s6indqb7opbeoejsom0aji0girtdd4.apps.googleusercontent.com',
+			'cookiepolicy': 'single_host_origin',
+			'requestvisibleactions': 'http://schemas.google.com/AddActivity',
+			'scope': 'https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email'
+		});
+
+	}
+
+	//callback from google plus login api
+	function signinCallback(authResult) {
+	  if (authResult['status']['signed_in']) {
+		  console.log('Sign-in state: authorized');
+		  
+	    // Update the app to reflect a signed in user
+	    // Hide the sign-in button now that the user is authorized, for example:
+	    var token = authResult['id_token']; 
+	    gapi.client.load('plus','v1', function(){ 
+            var request = gapi.client.plus.people.get(
+        {
+            'userId': 'me',
+           	'fields':'displayName,emails,gender,name'
+        });
+        request.execute(function (resp)
+        {	var displayName = '';
+        	var familyName = '';
+        	var givenName ='';
+        	var gender='';
+        	if(resp['name']){
+               	if(resp['name']['givenName'])
+               	{
+               		givenName = resp['name']['givenName'];
+               	}else{
+                   	console.log('You don\'t have a givenName');
+           		}
+               	if(resp['name']['familyName'])
+               	{
+                   	familyName = resp['name']['familyName'];
+               	}else{
+       				console.log('You don\'t have a familyName');
+           		}
+        	}
+        	if (resp['gender']){
+        		gender = resp['gender'];
+            	}else{
+        		console.log('You don\'t have a gender');
+            	}
+        	if (resp['displayName'])
+            {
+                displayName = resp['displayName'];
+                }
+        	else{
+        		console.log('You don\'t have a displayName');
+            	}	
+            var email = '';
+            if(resp['emails'])
+            {
+                for(i = 0; i < resp['emails'].length; i++)
+                {
+                    if(resp['emails'][i]['type'] == 'account')
+                    {
+                        email = resp['emails'][i]['value'];
+                    }
+                }
+            }
+            //verify if user is on database
+            //call function
+            var userData = {};
+            userData["givenName"] = givenName;
+            userData["familyName"] = familyName;
+ 			userData["username"] = displayName;
+ 			userData["gender"] = gender;
+ 			userData["email"] = email;
+ 			userData["token"] = token;
+ 			processUser(email, userData);
+			//if yes goes to welcome page
+			//else register, then goes welcome page.
+         
+        });
+        });
+	  } else {
+	    // Update the app to reflect a signed out user
+	    // Possible error values:
+	    //   "user_signed_out" - User is signed-out
+	    //   "access_denied" - User denied access to your app
+	    //   "immediate_failed" - Could not automatically log in the user
+	    console.log('Sign-in state: ' + authResult['error']);
+	  }
+	}
+
+String.prototype.capitalizeFirstLetter = function() {
+    return this.charAt(0).toUpperCase() + this.slice(1);
+}
+
+</script>
+	<!--Facebook login -->
+	<script>
+// This function is called when someone finishes with the Login
+// Button.  See the onlogin handler attached to it in the sample
+// code below.
+function checkLoginState() {
+	FB.getLoginStatus(function(response) {
+	statusChangeCallback(response);
+	});
+}
+
+// This is called with the results from from FB.getLoginStatus().
+function statusChangeCallback(response) {
+    console.log('statusChangeCallback');
+    console.log(response);
+    // The response object is returned with a status field that lets the
+    // app know the current login status of the person.
+    // Full docs on the response object can be found in the documentation
+    // for FB.getLoginStatus().
+    if (response.status === 'connected') {
+      // Logged into your app and Facebook.
+      getUserData(response);
+    } else if (response.status === 'not_authorized') {
+      // The person is logged into Facebook, but not your app.
+//       document.getElementById('status').innerHTML = 'Please log ' +
+//         'into this app.';
+    } else {
+      // The person is not logged into Facebook, so we're not sure if
+      // they are logged into this app or not.
+//       document.getElementById('status').innerHTML = 'Please log ' +
+//         'into Facebook.';
+    }
+  }
+
+  window.fbAsyncInit = function() {
+  FB.init({
+    appId      : '1578173019098297',
+    cookie     : true,  // enable cookies to allow the server to access 
+                        // the session
+    xfbml      : true,  // parse social plugins on this page
+    version    : 'v2.3' // use version 2.2
+  });
+
+  checkLoginState();
+  };
+
+  // Load the SDK asynchronously
+  (function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/sdk.js";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));
+
+//add event listener to login button
+  document.getElementById('faceBtn').addEventListener('click', function() {
+  	//do the login
+  	FB.login(function(response) {
+  		if (response.authResponse) {
+  			//user just authorized your app
+  			getUserData(response);
+  		}
+  	}, {scope: 'email,public_profile,user_friends', return_scopes: true});
+  }, false);
+
+  // Here we run a very simple test of the Graph API after login is
+  // successful.  See statusChangeCallback() for when this call is made.
+  function getUserData(response) {
+    console.log('Welcome!  Fetching your information.... ');
+    var token = response.authResponse.accessToken;
+    FB.api('/me', function(resp) {
+      console.log('Successful login for: ' + resp.name);
+      console.log('Thanks for logging in, ' + resp.name + '!');
+      var displayName = '';
+      var familyName = '';
+  	  var givenName ='';
+  	  var gender='';
+  	 
+         	if(resp['first_name'])
+         	{
+         		givenName = resp['first_name'];
+         	}else{
+             	console.log('You don\'t have a first_name');
+         	}
+         	if(resp['last_name'])
+         	{
+             	familyName = resp['last_name'];
+         	}else{
+ 				console.log('You don\'t have a last_name');
+     		}
+  	
+  	if (resp['gender']){
+  		gender = resp['gender'];
+      	}else{
+  		console.log('You don\'t have a gender');
+      	}
+  	if (resp['name'])
+      {
+          displayName = resp['name'];
+          }
+  	else{
+  		console.log('You don\'t have a displayName');
+      	}	
+      var email = '';
+      if (resp['email'])
+      {
+    	  email = resp['email'];
+          }
+  	else{
+  		console.log('You don\'t have a email');
+      	}	
+      
+      var userData = {};
+      userData["givenName"] = givenName;
+      userData["familyName"] = familyName;
+      userData["username"] = displayName;
+      userData["gender"] = gender;
+      userData["email"] = email;
+      userData["token"] = token;
+
+      processUser(email, userData);
+       	 
+    });
+  }
+</script>
+	<!-- send user data to index page -->
+	<script type="text/javascript">
+
+    function sendData(data){
+    	
+		var givenName = data.givenName;
+		var email = data.email;
+		setCookie("givenName", givenName, 20);
+		setCookie("email", data.email, 20);
+		
+        window.location.href = "index.html";
+        
+    }
+    </script>
+	<!-- external javascript -->
+
+	<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+	<!-- library for cookie management -->
+	<script src="js/jquery.cookie.js"></script>
+	<!-- calender plugin -->
+	<script src='bower_components/moment/min/moment.min.js'></script>
+	<script src='bower_components/fullcalendar/fullcalendar.min.js'></script>
+	<!-- data table plugin -->
+	<script src='js/jquery.dataTables.min.js'></script>
+
+	<!-- select or dropdown enhancer -->
+	<script src="bower_components/chosen/chosen.jquery.min.js"></script>
+	<!-- plugin for gallery image view -->
+	<script src="bower_components/colorbox/jquery.colorbox-min.js"></script>
+	<!-- notification plugin -->
+	<script src="js/jquery.noty.js"></script>
+	<!-- library for making tables responsive -->
+	<script src="bower_components/responsive-tables/responsive-tables.js"></script>
+	<!-- tour plugin -->
+	<script
+		src="bower_components/bootstrap-tour/build/js/bootstrap-tour.min.js"></script>
+	<!-- star rating plugin -->
+	<script src="js/jquery.raty.min.js"></script>
+	<!-- for iOS style toggle switch -->
+	<script src="js/jquery.iphone.toggle.js"></script>
+	<!-- autogrowing textarea plugin -->
+	<script src="js/jquery.autogrow-textarea.js"></script>
+	<!-- multiple file upload plugin -->
+	<script src="js/jquery.uploadify-3.1.min.js"></script>
+	<!-- history.js for cross-browser state change on ajax -->
+	<script src="js/jquery.history.js"></script>
+	<!-- application script for Charisma demo -->
+	<script src="js/template.js"></script>
+	<script src="js/mybetleague.js"></script>
+	<script src="https://apis.google.com/js/client:platform.js" async defer></script>
+
+</body>
+</html>
